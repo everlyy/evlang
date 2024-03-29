@@ -1,0 +1,7 @@
+0
+1
+#dump
+.dup
+.rot
+.add
+2 .jump
