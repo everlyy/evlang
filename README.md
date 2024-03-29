@@ -6,7 +6,7 @@ This isn't meant to actually be used, rather a toy project for me to learn about
 # Quick Start
 
 ```console
-$ make -C evlangc
+$ ./buildall.sh
 $ ./evlangc/bin/evlangc examples/fib.evlang
 ```
 
