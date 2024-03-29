@@ -9,3 +9,6 @@ This isn't meant to actually be used, rather a toy project for me to learn about
 $ make -C evlangc
 $ ./evlangc/bin/evlangc examples/fib.evlang
 ```
+
+# Screenshots
+![Terminal Output](screenshots/terminal.png)
