@@ -11,4 +11,4 @@ $ ./evlangc/bin/evlangc examples/fib.evlang
 ```
 
 # Screenshots
-![Terminal Output](screenshots/terminal.png)
+![Terminal Output from examples/fib.evlang](screenshots/terminal.png)
