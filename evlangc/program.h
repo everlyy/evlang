@@ -17,7 +17,7 @@ typedef enum {
     X(INSN_PUSH_INT,     "push",   true)  \
     X(INSN_ADD,          "add",    false) \
     X(INSN_CALL_BUILTIN, "callbi", true)  \
-    X(INSN_JUMP,         "jmp",    false) \
+    X(INSN_JUMP,         "jump",   false) \
     X(INSN_DROP,         "drop",   false) \
     X(INSN_DUPLICATE,    "dup",    false) \
     X(INSN_SWAP,         "swap",   false) \
