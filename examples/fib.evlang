@@ -3,7 +3,7 @@
 
 :loop
     #dump       // Dump current stack
-    .dup        // abc -> abcc  - Duplicate topmost element on the stack
-    .rot        // abc -> cab   - Rotate top 3 numbers on the stack
-    .add        // abc -> (b+c) - Add top 2 numbers on the stack
+    .dup        // abc -> abcc   - Duplicate topmost element on the stack
+    .rot        // abc -> cab    - Rotate top 3 numbers on the stack
+    .add        // abc -> a(b+c) - Add top 2 numbers on the stack
     $loop .jump // Unconditional jump to `:loop`

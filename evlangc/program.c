@@ -11,11 +11,7 @@ static const cstr builtin_names[_BUILTIN_COUNT] = {
 };
 
 static Builtin builtin_from_name(StringView name) {
-    ASSERT(name.length >= 2);
-
-    // Skip leading '#'
-    name.data++;
-    name.length--;
+    ASSERT(name.length >= 1);
 
     for(u64 i = 0; i < ARRAY_LEN(builtin_names); i++) {
         if(builtin_names[i] && sv_eq_cstr(&name, builtin_names[i]))
@@ -101,7 +97,7 @@ Program program_from_token_list(const TokenList* tl) {
 
         case TOKEN_CALL_BUILTIN: {
             instruction.type = INSN_CALL_BUILTIN;
-            instruction.operand.as_builtin = builtin_from_name(token->text);
+            instruction.operand.as_builtin = builtin_from_name(token->interpret.as_symbol);
             break;
         }
 

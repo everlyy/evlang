@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
-PROJECTS="evlangc"
+PROJECTS="common evlangc"
 
 for project in ${PROJECTS[@]};
 do
-    make -C $project clean all
+    make -C $project $@
 done
