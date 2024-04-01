@@ -79,6 +79,9 @@ int main(int argc, char** argv) {
     printf("\n");
     program_disassemble(&program);
 
+    EmulatorState state = emulator_state_create();
+    emulator_emulate_program(&state, &program);
+
     free((void*)contents.data);
     return 0;
 }
