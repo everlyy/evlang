@@ -88,7 +88,7 @@ Program program_from_token_list(const TokenList* tl) {
         }
 
         default:
-            COMPILER_ERROR_LOC(
+            LOG_ERROR_LOC(
                 &token->location,
                 "Unknown token '%.*s' (%s)",
                 (int)token->text.length, token->text.data,

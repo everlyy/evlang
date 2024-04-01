@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-void compiler_printf(FILE* stream, cstr file, u32 line, cstr prefix, cstr fmt, ...) {
+void log_printf(FILE* stream, cstr file, u32 line, cstr prefix, cstr fmt, ...) {
     fprintf(stream, "%s: [%s:%lu] ", prefix, file, line);
 
     va_list args;

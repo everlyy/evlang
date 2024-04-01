@@ -15,16 +15,16 @@
 
 StringView read_file(const char* filename) {
     FILE* file = fopen(filename, "r");
-    COMPILER_ERROR_IF(!file, "Couldn't open file %s: %s", filename, strerror(errno));
+    LOG_ERROR_IF(!file, "Couldn't open file %s: %s", filename, strerror(errno));
 
     fseek(file, 0, SEEK_END);
     long length = ftell(file);
-    COMPILER_ERROR_IF(length < 0, "Couldn't determine size of file %s: %s", filename, strerror(errno));
+    LOG_ERROR_IF(length < 0, "Couldn't determine size of file %s: %s", filename, strerror(errno));
     fseek(file, 0, SEEK_SET);
 
     char* data = malloc(length);
     size_t n = fread(data, 1, length, file);
-    COMPILER_ERROR_IF(n != (size_t)length, "Couldn't read from file %s", filename);
+    LOG_ERROR_IF(n != (size_t)length, "Couldn't read from file %s", filename);
 
     fclose(file);
     return sv_from_buffer(data, length);

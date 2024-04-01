@@ -9,24 +9,24 @@
 #define PREFIX_WARNING "\e[33mWARNING\e[0m"
 #define PREFIX_INFO    "\e[36mINFO\e[0m"
 
-#define COMPILER_ERROR(fmt, ...)             \
-    do {                                     \
-        compiler_printf(                     \
-            stderr,                          \
-            __FILE__, __LINE__,              \
-            PREFIX_ERROR, fmt,               \
-            ##__VA_ARGS__                    \
-        );                                   \
-        exit(1);                             \
+#define LOG_ERROR(fmt, ...)     \
+    do {                        \
+        log_printf(             \
+            stderr,             \
+            __FILE__, __LINE__, \
+            PREFIX_ERROR, fmt,  \
+            ##__VA_ARGS__       \
+        );                      \
+        exit(1);                \
     } while(0)
 
-#define COMPILER_ERROR_IF(cond, fmt, ...) if(cond) COMPILER_ERROR(fmt, ##__VA_ARGS__)
+#define LOG_ERROR_IF(cond, fmt, ...) if(cond) LOG_ERROR(fmt, ##__VA_ARGS__)
 
-#define COMPILER_ERROR_LOC(loc, fmt, ...) COMPILER_ERROR(LOCATION_FMT ": " fmt, LOCATION_ARGS(loc), ##__VA_ARGS__)
+#define LOG_ERROR_LOC(loc, fmt, ...) LOG_ERROR(LOCATION_FMT ": " fmt, LOCATION_ARGS(loc), ##__VA_ARGS__)
 
-#define COMPILER_WARN(fmt, ...) \
+#define LOG_WARN(fmt, ...)      \
     do {                        \
-        compiler_printf(        \
+        log_printf(             \
             stdout,             \
             __FILE__, __LINE__, \
             PREFIX_WARNING,     \
@@ -34,6 +34,6 @@
         );                      \
     } while(0)
 
-void compiler_printf(FILE* stream, cstr file, u32 line, cstr prefix, cstr fmt, ...);
+void log_printf(FILE* stream, cstr file, u32 line, cstr prefix, cstr fmt, ...);
 
 #endif // _LOG_H
