@@ -1,0 +1,29 @@
+%YAML 1.2
+---
+name: evlang
+file_extensions:
+  - evlang
+
+scope: source.evlang
+
+contexts:
+  main:
+    - match: '#(dump)\b'
+      scope: keyword.evlang
+
+    - match: '\.[a-zA-Z_]+\b'
+      scope: variable.function
+
+    - match: '(\$|:)[a-zA-Z_]+\b'
+      scope: variable.parameter.evlang
+
+    - match: \b[0-9]+\b
+      scope: constant.numeric.evlang
+
+    - match: //
+      push: comment
+
+  comment:
+    - meta_scope: comment.evlang
+    - match: \n
+      pop: true
