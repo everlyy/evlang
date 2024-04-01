@@ -70,6 +70,11 @@ static bool symbol_type(Lexer* l, Token* token, char start_char, TokenType type)
             consume(l);
         }
 
+        token->interpret.as_symbol = (StringView) {
+            .data = token->text.data + 1,
+            .length = token->text.length - 1
+        };
+
         return true;
     }
 
@@ -88,16 +93,16 @@ static bool symbol_type(Lexer* l, Token* token, char start_char, TokenType type)
 // }
 
 static cstr instruction_types_cstr[_TI_COUNT] = {
-    [TI_ADD]       = ".add",
-    [TI_DUPLICATE] = ".dup",
-    [TI_SWAP]      = ".swap",
-    [TI_JUMP]      = ".jump",
-    [TI_ROTATE]    = ".rot",
+    [TI_ADD]       = "add",
+    [TI_DUPLICATE] = "dup",
+    [TI_SWAP]      = "swap",
+    [TI_JUMP]      = "jump",
+    [TI_ROTATE]    = "rot",
 };
 
 static bool parse_instruction(Token* token) {
     for(u64 i = 0; i < ARRAY_LEN(instruction_types_cstr); i++) {
-        if(sv_eq_cstr(&token->text, instruction_types_cstr[i])) {
+        if(sv_eq_cstr(&token->interpret.as_symbol, instruction_types_cstr[i])) {
             token->interpret.as_instruction = i;
             return true;
         }
@@ -165,21 +170,11 @@ Token lexer_token_next(Lexer* l) {
     if(symbol_type(l, &token, '#', TOKEN_CALL_BUILTIN))
         return token;
 
-    if(symbol_type(l, &token, '$', TOKEN_LABEL_REF)) {
-        token.interpret.as_symbol = (StringView) {
-            .data = token.text.data + 1,
-            .length = token.text.length - 1
-        };
+    if(symbol_type(l, &token, '$', TOKEN_LABEL_REF))
         return token;
-    }
 
-    if(symbol_type(l, &token, ':', TOKEN_LABEL_DEF)) {
-        token.interpret.as_symbol = (StringView) {
-            .data = token.text.data + 1,
-            .length = token.text.length - 1
-        };
+    if(symbol_type(l, &token, ':', TOKEN_LABEL_DEF))
         return token;
-    }
 
     if(symbol_type(l, &token, '.', TOKEN_INSTRUCTION) && parse_instruction(&token)) {
         return token;
