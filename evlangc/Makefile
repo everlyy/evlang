@@ -1,32 +1,4 @@
 NAME := evlangc
+SOURCES := main.c log.c lexer.c program.c emulator.c
 
-CC := gcc
-CFLAGS := -Wall -Wextra -Werror -std=c2x -ggdb
-CPPFLAGS :=
-
-OBJECTS_DIR := obj
-BINARY_DIR := bin
-
-SOURCES := main.c log.c string_view.c lexer.c list.c program.c emulator.c
-OBJECTS := $(SOURCES:%.c=$(OBJECTS_DIR)/%.o)
-HEADERS := $(OBJECTS:%.o=%.d)
-
-all: $(BINARY_DIR)/$(NAME)
-
-$(BINARY_DIR)/$(NAME): $(OBJECTS)
-	@mkdir -p $(BINARY_DIR)
-	@$(CC) $(CFLAGS) -o $@ $^
-	$(info LINK $@)
-
--include $(HEADERS)
-
-$(OBJECTS_DIR)/%.o: %.c
-	@mkdir -p $(OBJECTS_DIR)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -c -o $@ $<
-	$(info CC $@)
-
-clean:
-	rm -f $(OBJECTS)
-	rm -f $(HEADERS)
-	rm -rf $(OBJECTS_DIR)
-	rm -rf $(BINARY_DIR)
+include ../Makefile.common
