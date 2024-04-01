@@ -1,5 +1,7 @@
+// Push initial values onto the stack
 0 1
+
 :loop
-    #dump
-    .dup .rot .add
-    $loop .jump
+    #dump           // Dump current stack
+    .dup .rot .add  // Actual Fibonacci magic
+    $loop .jump     // Unconditional jump to `:loop`
