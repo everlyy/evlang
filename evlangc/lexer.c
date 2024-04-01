@@ -165,11 +165,21 @@ Token lexer_token_next(Lexer* l) {
     if(symbol_type(l, &token, '#', TOKEN_CALL_BUILTIN))
         return token;
 
-    if(symbol_type(l, &token, '$', TOKEN_LABEL_REF))
+    if(symbol_type(l, &token, '$', TOKEN_LABEL_REF)) {
+        token.interpret.as_symbol = (StringView) {
+            .data = token.text.data + 1,
+            .length = token.text.length - 1
+        };
         return token;
+    }
 
-    if(symbol_type(l, &token, ':', TOKEN_LABEL_DEF))
+    if(symbol_type(l, &token, ':', TOKEN_LABEL_DEF)) {
+        token.interpret.as_symbol = (StringView) {
+            .data = token.text.data + 1,
+            .length = token.text.length - 1
+        };
         return token;
+    }
 
     if(symbol_type(l, &token, '.', TOKEN_INSTRUCTION) && parse_instruction(&token)) {
         return token;

@@ -55,12 +55,6 @@ void print_token_debug(const Token* token) {
     printf("\n");
 }
 
-static void dump(EmulatorState* state) {
-    EmulatorValue value = emulator_pop(state);
-    printf("%lld\n", value.as_u64);
-    emulator_push(state, value);
-}
-
 int main(int argc, char** argv) {
     printf("evlangc - compiled on %s\n", __TIMESTAMP__);
 
@@ -83,19 +77,7 @@ int main(int argc, char** argv) {
     })
 
     printf("\n");
-    program_instruction_debug_header();
-    LIST_ITERATE(&program.instructions, Instruction, insn, {
-        program_instruction_debug(__index, insn);
-    })
-
-    printf("\n\e[1mEMULATION OUTPUT\e[0m\n");
-    EmulatorState state = emulator_state_create();
-    state.builtins[BUILTIN_DUMP] = dump;
-
-    while(!state.halt) {
-        emulator_emulate_instruction(&state, &program.instructions.items[state.program_counter]);
-        sleep(1);
-    }
+    program_disassemble(&program);
 
     free((void*)contents.data);
     return 0;

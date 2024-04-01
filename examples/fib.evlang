@@ -1,5 +1,5 @@
 0 1
-// This should become a label at some point instead of jumping to instruction indices
-#dump
-.dup .rot .add
-2 .jump
+:loop
+    #dump
+    .dup .rot .add
+    $loop .jump

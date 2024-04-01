@@ -3,6 +3,7 @@
 
 #include "lexer.h"
 #include "list.h"
+#include "string_view.h"
 
 typedef enum {
     BUILTIN_UNKNOWN = 0,
@@ -22,6 +23,7 @@ typedef enum {
     X(INSN_DUPLICATE,    "dup",    false) \
     X(INSN_SWAP,         "swap",   false) \
     X(INSN_ROTATE,       "rot",    false) \
+    X(INSN_PUSH_LABEL,   "pushl",  true)  \
 
 typedef enum {
     #define X(insn_type, mneumonic, has_operand) insn_type,
@@ -42,12 +44,24 @@ typedef struct {
 typedef LIST_DEFINE_STRUCT(Instruction) InstructionList;
 
 typedef struct {
+    StringView name;
+    u64 address;
+} Label;
+
+typedef LIST_DEFINE_STRUCT(Label) LabelList;
+
+typedef struct {
     InstructionList instructions;
+    LabelList labels;
 } Program;
 
 void il_append(InstructionList* il, const Instruction* i);
 void il_extend(InstructionList* il, const InstructionList* other_il);
 void il_free(InstructionList* il);
+
+void ll_append(LabelList* ll, const Label* l);
+void ll_extend(LabelList* ll, const LabelList* other_ll);
+void ll_free(LabelList* ll);
 
 Program program_from_token_list(const TokenList* tl);
 
@@ -56,7 +70,6 @@ bool instruction_type_has_operand(InstructionType type);
 
 cstr builtin_to_name(Builtin b);
 
-void program_instruction_debug_header(void);
-void program_instruction_debug(u64 addr, const Instruction* insn);
+void program_disassemble(const Program* program);
 
 #endif // _PROGRAM_H

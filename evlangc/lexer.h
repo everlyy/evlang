@@ -45,6 +45,7 @@ typedef struct {
     union _Interpret {
         u64 as_u64;
         TokenInstruction as_instruction;
+        StringView as_symbol;
     } interpret;
 } Token;
 
