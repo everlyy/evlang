@@ -2,6 +2,8 @@
 0 1
 
 :loop
-    #dump           // Dump current stack
-    .dup .rot .add  // Actual Fibonacci magic
-    $loop .jump     // Unconditional jump to `:loop`
+    #dump       // Dump current stack
+    .dup        // abc -> abcc  - Duplicate topmost element on the stack
+    .rot        // abc -> cab   - Rotate top 3 numbers on the stack
+    .add        // abc -> (b+c) - Add top 2 numbers on the stack
+    $loop .jump // Unconditional jump to `:loop`
