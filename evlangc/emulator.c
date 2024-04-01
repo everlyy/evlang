@@ -96,6 +96,11 @@ void emulator_emulate_instruction(EmulatorState* state, const Instruction* instr
         break;
     }
 
+    case INSN_PUSH_LABEL: {
+        push(state, ev_u64(instruction->operand.as_u64));
+        break;
+    }
+
     default:
         ASSERT(false);
     }
