@@ -34,10 +34,7 @@ EmulatorState emulator_state_create(void) {
     return state;
 }
 
-void emulator_emulate_instruction(EmulatorState* state, const Instruction* instruction, bool show_disassembly) {
-    if(show_disassembly)
-        program_instruction_debug(state->program_counter, instruction);
-
+void emulator_emulate_instruction(EmulatorState* state, const Instruction* instruction) {
     switch(instruction->type) {
     case INSN_NOP:
         break;
@@ -108,10 +105,9 @@ void emulator_emulate_instruction(EmulatorState* state, const Instruction* instr
         return;
 }
 
-void emulator_emulate_program(EmulatorState* state, const Program* program, bool show_disassembly) {
-    while(!state->halt) {
-        emulator_emulate_instruction(state, &program->instructions.items[state->program_counter], show_disassembly);
-    }
+void emulator_emulate_program(EmulatorState* state, const Program* program) {
+    while(!state->halt)
+        emulator_emulate_instruction(state, &program->instructions.items[state->program_counter]);
 }
 
 void emulator_push(EmulatorState* state, EmulatorValue value) {

@@ -23,8 +23,8 @@ typedef struct EmulatorState {
 } EmulatorState;
 
 EmulatorState emulator_state_create(void);
-void emulator_emulate_instruction(EmulatorState* state, const Instruction* instruction, bool show_disassembly);
-void emulator_emulate_program(EmulatorState* state, const Program* program, bool show_disassembly);
+void emulator_emulate_instruction(EmulatorState* state, const Instruction* instruction);
+void emulator_emulate_program(EmulatorState* state, const Program* program);
 
 void emulator_push(EmulatorState* state, EmulatorValue value);
 EmulatorValue emulator_pop(EmulatorState* state);

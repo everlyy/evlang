@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
     state.builtins[BUILTIN_DUMP] = dump;
 
     while(!state.halt) {
-        emulator_emulate_instruction(&state, &program.instructions.items[state.program_counter], true);
+        emulator_emulate_instruction(&state, &program.instructions.items[state.program_counter]);
         sleep(1);
     }
 
