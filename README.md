@@ -14,3 +14,4 @@ $ ./evlangc/bin/evlangc examples/fib.evlang
 
 # Screenshots
 ![Terminal Output from examples/fib.evlang](screenshots/terminal.png)
+![Fibonacci example in Sublime Text with syntax highlighting](screenshots/editor.png)
