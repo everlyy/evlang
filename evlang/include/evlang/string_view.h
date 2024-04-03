@@ -1,5 +1,5 @@
-#ifndef _STRING_VIEW_H
-#define _STRING_VIEW_H
+#ifndef _EVLANG_STRING_VIEW_H
+#define _EVLANG_STRING_VIEW_H
 
 #include <evlang/list.h>
 #include <evlang/types.h>
@@ -35,4 +35,4 @@ bool sv_eq_cstr(const StringView* left, cstr right);
 bool sv_eq_char(const StringView* sv, char c);
 StringViewList svl_get_lines(StringView sv);
 
-#endif // _STRING_VIEW_H
+#endif // _EVLANG_STRING_VIEW_H

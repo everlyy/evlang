@@ -1,5 +1,5 @@
-#ifndef _LIST_H
-#define _LIST_H
+#ifndef _EVLANG_LIST_H
+#define _EVLANG_LIST_H
 
 #include <evlang/assert.h>
 #include <evlang/types.h>
@@ -44,4 +44,4 @@ void list_append(void** items, u64* count, u64* capacity, u64 item_size, const v
 void list_extend(void** items, u64* count, u64* capacity, u64 item_size, const void* other_items, u64 other_count);
 void list_free(void* items);
 
-#endif // _LIST_H
+#endif // _EVLANG_LIST_H
