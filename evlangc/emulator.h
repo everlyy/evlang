@@ -19,11 +19,11 @@ typedef struct EmulatorState {
     u64 stack_index;
     u64 program_counter;
     bool halt;
-    BuiltinFunction builtins[_BUILTIN_COUNT];
+    BuiltinFunction builtins[_ASMBI_COUNT];
 } EmulatorState;
 
 EmulatorState emulator_state_create(void);
-void emulator_emulate_instruction(EmulatorState* state, const Instruction* instruction);
+void emulator_emulate_instruction(EmulatorState* state, const ASM_Instruction* instruction);
 void emulator_emulate_program(EmulatorState* state, const Program* program);
 
 void emulator_push(EmulatorState* state, EmulatorValue value);

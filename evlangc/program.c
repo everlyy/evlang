@@ -1,48 +1,43 @@
 #include "program.h"
+#include "evlang/asm.h"
 #include "lexer.h"
 #include "log.h"
 
-static const cstr builtin_names[_BUILTIN_COUNT] = {
-    [BUILTIN_DUMP]  = "dump"
-};
-
-static Builtin builtin_from_name(StringView name) {
-    ASSERT(name.length >= 1);
-
-    for(u64 i = 0; i < ARRAY_LEN(builtin_names); i++) {
-        if(builtin_names[i] && sv_eq_cstr(&name, builtin_names[i]))
+static ASM_Builtin builtin_from_name(const StringView* symbol) {
+    for(ASM_Builtin i = ASMBI_UNKNOWN; i < _ASMBI_COUNT; i++) {
+        if(sv_eq_cstr(symbol, asm_builtin_name(i)))
             return i;
     }
 
-    return BUILTIN_UNKNOWN;
+    return ASMBI_UNKNOWN;
 }
 
-static void parse_token_instruction(Instruction* instruction, const Token* token) {
+static void parse_token_instruction(ASM_Instruction* instruction, const Token* token) {
     ASSERT(token->type == TOKEN_INSTRUCTION);
 
     switch(token->interpret.as_instruction) {
     case TI_ADD: {
-        instruction->type = INSN_ADD;
+        instruction->type = ASMI_ADD;
         break;
     }
 
     case TI_DUPLICATE: {
-        instruction->type = INSN_DUPLICATE;
+        instruction->type = ASMI_DUPLICATE;
         break;
     }
 
     case TI_SWAP: {
-        instruction->type = INSN_SWAP;
+        instruction->type = ASMI_SWAP;
         break;
     }
 
     case TI_JUMP: {
-        instruction->type = INSN_JUMP;
+        instruction->type = ASMI_JUMP;
         break;
     }
 
     case TI_ROTATE: {
-        instruction->type = INSN_ROTATE;
+        instruction->type = ASMI_ROTATE;
         break;
     }
 
@@ -73,12 +68,11 @@ static bool get_label_name_from_address(const LabelList* ll, u64 address, String
     return false;
 }
 
-
 Program program_from_token_list(const TokenList* tl) {
     Program program = {0};
 
     LIST_ITERATE(tl, Token, token, {
-        Instruction instruction = {0};
+        ASM_Instruction instruction = {0};
 
         switch(token->type) {
         case TOKEN_COMMENT:
@@ -86,14 +80,14 @@ Program program_from_token_list(const TokenList* tl) {
             goto dont_add;
 
         case TOKEN_INTEGER: {
-            instruction.type = INSN_PUSH_INT;
+            instruction.type = ASMI_PUSH_INT;
             instruction.operand.as_u64 = token->interpret.as_u64;
             break;
         }
 
         case TOKEN_CALL_BUILTIN: {
-            instruction.type = INSN_CALL_BUILTIN;
-            instruction.operand.as_builtin = builtin_from_name(token->interpret.as_symbol);
+            instruction.type = ASMI_CALL_BUILTIN;
+            instruction.operand.as_builtin = builtin_from_name(&token->interpret.as_symbol);
             break;
         }
 
@@ -120,7 +114,7 @@ Program program_from_token_list(const TokenList* tl) {
                 (int)token->interpret.as_symbol.length, token->interpret.as_symbol.data
             );
 
-            instruction.type = INSN_PUSH_LABEL;
+            instruction.type = ASMI_PUSH_LABEL;
             instruction.operand.as_u64 = address;
             break;
         }
@@ -140,36 +134,12 @@ Program program_from_token_list(const TokenList* tl) {
             continue;
     })
 
-    Instruction halt_instruction = {
-        .type = INSN_HALT,
+    ASM_Instruction halt_instruction = {
+        .type = ASMI_HALT,
         .operand.as_u64 = 0
     };
     il_append(&program.instructions, &halt_instruction);
     return program;
-}
-
-cstr instruction_type_mneumonic(InstructionType type) {
-    switch(type) {
-    #define X(insn_type, mneumonic, has_operand) case insn_type: return mneumonic;
-        ENUM_INSTRUCTION_TYPES
-    #undef X
-    }
-
-    return NULL;
-}
-
-bool instruction_type_has_operand(InstructionType type) {
-    switch(type) {
-    #define X(insn_type, mneumonic, has_operand) case insn_type: return has_operand;
-        ENUM_INSTRUCTION_TYPES
-    #undef X
-    }
-
-    return false;
-}
-
-cstr builtin_to_name(Builtin b) {
-    return builtin_names[b];
 }
 
 void program_disassemble(const Program* program) {
@@ -182,18 +152,18 @@ void program_disassemble(const Program* program) {
             printf("\n<label> %.*s:\n", (int)name->length, name->data);
         }
 
-        const Instruction* insn = &program->instructions.items[i];
+        const ASM_Instruction* insn = &program->instructions.items[i];
 
         printf("%04llu    ", i);
         printf("%04X 0x%016llX    ", insn->type, insn->operand.as_u64);
-        printf("%-8s", instruction_type_mneumonic(insn->type));
-        if(instruction_type_has_operand(insn->type)) {
+        printf("%-8s", asm_instruction_mneumonic(insn->type));
+        if(asm_instruction_has_operand(insn->type)) {
             printf(" %lld", insn->operand.as_s64);
 
-            if(insn->type == INSN_CALL_BUILTIN)
-                printf(" [= %s]", builtin_to_name(insn->operand.as_builtin));
+            if(insn->type == ASMI_CALL_BUILTIN)
+                printf(" [= %s]", asm_builtin_name(insn->operand.as_builtin));
 
-            if(insn->type == INSN_PUSH_LABEL) {
+            if(insn->type == ASMI_PUSH_LABEL) {
                 StringView* name;
                 bool found = get_label_name_from_address(&program->labels, insn->operand.as_u64, &name);
                 if(found)
@@ -206,7 +176,7 @@ void program_disassemble(const Program* program) {
     }
 }
 
-void il_append(InstructionList* il, const Instruction* i) {
+void il_append(InstructionList* il, const ASM_Instruction* i) {
     LIST_APPEND(il, i);
 }
 

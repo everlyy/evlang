@@ -15,4 +15,8 @@ typedef signed   long long s64;
 
 typedef const char* cstr;
 
+#ifndef NULL
+#define NULL ((void*)0)
+#endif // NULL
+
 #endif // _EVLANG_TYPES_H

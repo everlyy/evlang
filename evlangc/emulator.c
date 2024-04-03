@@ -24,57 +24,57 @@ static void builtin_dump(EmulatorState* state) {
 EmulatorState emulator_state_create(void) {
     EmulatorState state = {0};
 
-    state.builtins[BUILTIN_UNKNOWN] = builtin_unknown;
-    state.builtins[BUILTIN_DUMP] = builtin_dump;
+    state.builtins[ASMBI_UNKNOWN] = builtin_unknown;
+    state.builtins[ASMBI_DUMP] = builtin_dump;
 
     return state;
 }
 
-void emulator_emulate_instruction(EmulatorState* state, const Instruction* instruction) {
+void emulator_emulate_instruction(EmulatorState* state, const ASM_Instruction* instruction) {
     switch(instruction->type) {
-    case INSN_NOP:
+    case ASMI_NOP:
         break;
 
-    case INSN_HALT: {
+    case ASMI_HALT: {
         state->halt = true;
         break;
     }
 
-    case INSN_PUSH_INT: {
+    case ASMI_PUSH_INT: {
         push(state, ev_u64(instruction->operand.as_u64));
         break;
     }
 
-    case INSN_ADD: {
+    case ASMI_ADD: {
         u64 a = pop(state).as_u64;
         u64 b = pop(state).as_u64;
         push(state, ev_u64(a + b));
         break;
     }
 
-    case INSN_CALL_BUILTIN: {
+    case ASMI_CALL_BUILTIN: {
         state->builtins[instruction->operand.as_builtin](state);
         break;
     }
 
-    case INSN_JUMP: {
+    case ASMI_JUMP: {
         state->program_counter = pop(state).as_u64;
         goto after_inc_pc;
     }
 
-    case INSN_DROP: {
+    case ASMI_DROP: {
         pop(state);
         break;
     }
 
-    case INSN_DUPLICATE: {
+    case ASMI_DUPLICATE: {
         EmulatorValue value = pop(state);
         push(state, value);
         push(state, value);
         break;
     }
 
-    case INSN_SWAP: {
+    case ASMI_SWAP: {
         EmulatorValue a = pop(state);
         EmulatorValue b = pop(state);
         push(state, a);
@@ -82,7 +82,7 @@ void emulator_emulate_instruction(EmulatorState* state, const Instruction* instr
         break;
     }
 
-    case INSN_ROTATE: {
+    case ASMI_ROTATE: {
         EmulatorValue a = pop(state);
         EmulatorValue b = pop(state);
         EmulatorValue c = pop(state);
@@ -92,7 +92,7 @@ void emulator_emulate_instruction(EmulatorState* state, const Instruction* instr
         break;
     }
 
-    case INSN_PUSH_LABEL: {
+    case ASMI_PUSH_LABEL: {
         push(state, ev_u64(instruction->operand.as_u64));
         break;
     }

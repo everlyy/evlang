@@ -5,7 +5,6 @@
 #include "log.h"
 #include "lexer.h"
 #include "program.h"
-#include "emulator.h"
 
 StringView read_file(const char* filename) {
     FILE* file = fopen(filename, "r");
@@ -64,17 +63,7 @@ int main(int argc, char** argv) {
     Lexer l = lexer_create(filename, contents);
     TokenList tl = lexer_token_list(&l);
     Program program = program_from_token_list(&tl);
-
-    print_token_debug_header();
-    LIST_ITERATE(&tl, Token, t, {
-        print_token_debug(t);
-    })
-
-    printf("\n");
     program_disassemble(&program);
-
-    EmulatorState state = emulator_state_create();
-    emulator_emulate_program(&state, &program);
 
     free((void*)contents.data);
     return 0;
