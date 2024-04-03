@@ -1,7 +1,8 @@
 #ifndef _LIST_H
 #define _LIST_H
 
-#include "evlang.h"
+#include <evlang/assert.h>
+#include <evlang/types.h>
 
 #define LIST_INITIAL_CAPACITY 16
 

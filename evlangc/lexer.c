@@ -1,9 +1,5 @@
 #include "lexer.h"
-#include "evlang.h"
-#include "evlang_assert.h"
-#include "string_view.h"
 #include <ctype.h>
-#include <stdio.h>
 #include <string.h>
 
 static int peek(const Lexer* l) {

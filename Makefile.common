@@ -1,7 +1,7 @@
 CC ?= gcc
 CFLAGS += -Wall -Wextra -Werror -std=c2x -ggdb
-CPPFLAGS += -I../common/include/
-LDFLAGS ?= -L../common/bin/ -lcommon
+CPPFLAGS += -I../evlang/include/
+LDFLAGS ?= -L../evlang/bin/ -levlang
 
 OBJECTS_DIR ?= obj
 BINARY_DIR ?= bin

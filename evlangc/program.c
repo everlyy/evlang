@@ -1,10 +1,6 @@
 #include "program.h"
-#include "evlang.h"
-#include "evlang_assert.h"
 #include "lexer.h"
-#include "list.h"
 #include "log.h"
-#include "string_view.h"
 
 static const cstr builtin_names[_BUILTIN_COUNT] = {
     [BUILTIN_DUMP]  = "dump"

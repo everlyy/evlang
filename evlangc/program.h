@@ -1,9 +1,8 @@
 #ifndef _PROGRAM_H
 #define _PROGRAM_H
 
+#include <evlang/evlang.h>
 #include "lexer.h"
-#include "list.h"
-#include "string_view.h"
 
 typedef enum {
     BUILTIN_UNKNOWN = 0,

@@ -1,8 +1,7 @@
 #ifndef _LOG_H
 #define _LOG_H
 
-#include "evlang.h"
-#include "lexer.h"
+#include <evlang/evlang.h>
 #include <stdio.h>
 
 #define PREFIX_ERROR   "\e[31mERROR\e[0m"

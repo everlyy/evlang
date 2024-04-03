@@ -1,4 +1,4 @@
-NAME := libcommon.a
+NAME := libevlang.a
 SOURCES := list.c string_view.c
 
 CC := gcc

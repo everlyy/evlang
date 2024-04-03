@@ -1,17 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <evlang/evlang.h>
 #include <string.h>
 #include <errno.h>
-#include <unistd.h>
-
-#include "emulator.h"
-#include "evlang.h"
-#include "evlang_assert.h"
-#include "list.h"
+#include <stdio.h>
 #include "log.h"
-#include "program.h"
-#include "string_view.h"
 #include "lexer.h"
+#include "program.h"
+#include "emulator.h"
 
 StringView read_file(const char* filename) {
     FILE* file = fopen(filename, "r");

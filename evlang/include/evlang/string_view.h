@@ -1,8 +1,8 @@
 #ifndef _STRING_VIEW_H
 #define _STRING_VIEW_H
 
-#include "evlang.h"
-#include "list.h"
+#include <evlang/list.h>
+#include <evlang/types.h>
 
 #include <stdbool.h>
 

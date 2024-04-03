@@ -1,9 +1,5 @@
 #include "emulator.h"
 
-#include "evlang_assert.h"
-#include "list.h"
-#include "program.h"
-
 #define push emulator_push
 #define pop emulator_pop
 

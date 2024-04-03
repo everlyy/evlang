@@ -1,7 +1,7 @@
 #ifndef _EMULATOR_H
 #define _EMULATOR_H
 
-#include "evlang_types.h"
+#include <evlang/evlang.h>
 #include "program.h"
 
 #define EMULATOR_STACK_SIZE 512

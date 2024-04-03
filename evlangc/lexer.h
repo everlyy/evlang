@@ -1,9 +1,7 @@
 #ifndef _TOKEN_H
 #define _TOKEN_H
 
-#include "evlang.h"
-#include "list.h"
-#include "string_view.h"
+#include <evlang/evlang.h>
 
 typedef struct {
     cstr filename;
