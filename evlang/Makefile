@@ -1,5 +1,5 @@
 NAME := libevlang.a
-SOURCES := list.c string_view.c asm.c
+SOURCES := list.c string_view.c asm.c evpgm.c
 
 CC := gcc
 AR := ar
