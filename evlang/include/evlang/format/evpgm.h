@@ -27,7 +27,7 @@ typedef struct {
 } EVPGM;
 
 void evpgm_free(EVPGM pgm);
-EVPGM evpgm_read_from_file(cstr filename);
+EVPGM evpgm_read_from_file(FILE* file);
 void evpgm_write_to_file(FILE* file, u16 label_count, EVPGM_Label labels[label_count], u64 code_length, u8 code[code_length]);
 
 #endif // _EVLANG_FORMAT_EVPGM_H

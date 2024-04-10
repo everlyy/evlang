@@ -42,10 +42,7 @@ void evpgm_free(EVPGM pgm) {
     free(pgm.code);
 }
 
-EVPGM evpgm_read_from_file(cstr filename) {
-    FILE* file = fopen(filename, "rb");
-    ASSERT(file != NULL);
-
+EVPGM evpgm_read_from_file(FILE* file) {
     EVPGM pgm = { 0 };
 
     read_buffer(file, pgm.signature, sizeof(evpgm_signature));
