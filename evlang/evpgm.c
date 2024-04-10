@@ -58,6 +58,7 @@ EVPGM evpgm_read_from_file(FILE* file) {
         EVPGM_Label* l = &pgm.labels[i];
         l->name_length = read_u16(file);
         l->name = malloc(l->name_length);
+        read_buffer(file, l->name, l->name_length);
         l->address = read_u64(file);
     }
 
