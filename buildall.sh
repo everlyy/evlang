@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-PROJECTS="evlang evlangc"
+PROJECTS="evlang evlc"
 
 for project in ${PROJECTS[@]};
 do

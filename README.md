@@ -9,7 +9,7 @@ At the moment the project is kinda a mess, but at some point I want to separate 
 
 ```console
 $ ./buildall.sh
-$ ./evlangc/bin/evlangc examples/fib.evlang
+$ ./evlc/bin/evlc examples/fib.evlang
 ```
 
 # Screenshots
