@@ -49,13 +49,8 @@ void print_token_debug(const Token* token) {
 }
 
 int main(int argc, char** argv) {
-    printf("evlangc - compiled on %s\n", __TIMESTAMP__);
-
-    if(argc < 2) {
-        fprintf(stderr, "Not enough arguments\n");
-        fprintf(stderr, "Usage: %s program.evlang\n", argv[0]);
-        return 1;
-    }
+    if(argc < 2)
+        LOG_ERROR("Not enough arguments. Usage: %s <program.evlang>", argv[0]);
 
     cstr filename = argv[1];
     StringView contents = read_file(filename);
@@ -63,7 +58,12 @@ int main(int argc, char** argv) {
     Lexer l = lexer_create(filename, contents);
     TokenList tl = lexer_token_list(&l);
     Program program = program_from_token_list(&tl);
+
     program_disassemble(&program);
+
+    FILE* file = fopen("a.evpgm", "wb");
+    ASSERT(file != NULL);
+    program_write_evpgm(&program, file);
 
     free((void*)contents.data);
     return 0;

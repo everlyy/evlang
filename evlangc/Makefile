@@ -1,4 +1,4 @@
 NAME := evlangc
-SOURCES := main.c log.c lexer.c program.c emulator.c
+SOURCES := main.c log.c lexer.c program.c
 
 include ../Makefile.common

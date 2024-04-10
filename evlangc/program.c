@@ -1,7 +1,12 @@
 #include "program.h"
-#include "evlang/asm.h"
+#include <evlang/asm.h>
+#include <evlang/format/evpgm.h>
+#include <evlang/list.h>
+#include <evlang/types.h>
 #include "lexer.h"
 #include "log.h"
+#include <stdlib.h>
+#include <string.h>
 
 static ASM_Builtin builtin_from_name(const StringView* symbol) {
     for(ASM_Builtin i = ASMBI_UNKNOWN; i < _ASMBI_COUNT; i++) {
@@ -174,6 +179,30 @@ void program_disassemble(const Program* program) {
         }
         printf("\n");
     }
+}
+
+void program_write_evpgm(const Program* program, FILE* file) {
+    u16 label_count = program->labels.count;
+    EVPGM_Label* labels = calloc(label_count, sizeof(*labels));
+
+    LIST_ITERATE(&program->labels, Label, l, ({
+        labels[__index] = (EVPGM_Label) {
+            .name = (u8*)l->name.data,
+            .name_length = l->name.length,
+            .address = l->address
+        };
+    }))
+
+    u64 fixme_code_capacity = 8192;
+    u64 code_length = 0;
+    u8* code = calloc(fixme_code_capacity, sizeof(*code));
+
+    LIST_ITERATE(&program->instructions, ASM_Instruction, insn, ({
+        memcpy(&code[code_length], insn, sizeof(ASM_Instruction));
+        code_length += sizeof(ASM_Instruction);
+    }))
+
+    evpgm_write_to_file(file, label_count, labels, code_length, code);
 }
 
 void il_append(InstructionList* il, const ASM_Instruction* i) {

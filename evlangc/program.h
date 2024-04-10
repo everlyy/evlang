@@ -2,6 +2,8 @@
 #define _PROGRAM_H
 
 #include <evlang/evlang.h>
+#include <evlang/format/evpgm.h>
+#include <stdio.h>
 #include "lexer.h"
 
 typedef LIST_DEFINE_STRUCT(ASM_Instruction) InstructionList;
@@ -29,5 +31,6 @@ void ll_free(LabelList* ll);
 Program program_from_token_list(const TokenList* tl);
 
 void program_disassemble(const Program* program);
+void program_write_evpgm(const Program* program, FILE* file);
 
 #endif // _PROGRAM_H
