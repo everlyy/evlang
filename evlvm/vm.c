@@ -1,5 +1,5 @@
 #include "vm.h"
-#include "evlang/format/evpgm.h"
+#include <evlang/format/evpgm.h>
 #include <evlang/asm.h>
 #include <stdio.h>
 
