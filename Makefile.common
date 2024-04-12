@@ -1,5 +1,5 @@
 CC ?= gcc
-CFLAGS += -Wall -Wextra -Werror -std=c2x -ggdb
+CFLAGS += -Wall -Wextra -Werror -std=gnu2x -ggdb
 CPPFLAGS += -I../evlang/include/
 LDFLAGS ?= -L../evlang/bin/ -levlang
 

@@ -3,7 +3,7 @@ SOURCES := list.c string_view.c asm.c evpgm.c
 
 CC := gcc
 AR := ar
-CFLAGS := -Wall -Wextra -Werror -std=c2x -ggdb
+CFLAGS := -Wall -Wextra -Werror -std=gnu2x -ggdb
 CPPFLAGS := -Iinclude/
 
 OBJECTS_DIR := obj
