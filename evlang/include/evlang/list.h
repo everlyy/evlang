@@ -40,6 +40,16 @@
         body;                                                  \
     }
 
+#define LIST_FUNCTIONS_DEFINE(list_type, item_type, prefix)             \
+    void prefix##_append(list_type* list, const item_type* item);       \
+    void prefix##_extend(list_type* list, const list_type* other_list); \
+    void prefix##_free(list_type* list);                                \
+
+#define LIST_FUNCTIONS_IMPLEMENT(list_type, item_type, prefix)                                             \
+    void prefix##_append(list_type* list, const item_type* item)        { LIST_APPEND(list, item);       } \
+    void prefix##_extend(list_type* list, const list_type* other_list)  { LIST_EXTEND(list, other_list); } \
+    void prefix##_free(list_type* list)                                 { LIST_FREE(list);               } \
+
 void list_append(void** items, u64* count, u64* capacity, u64 item_size, const void* item);
 void list_extend(void** items, u64* count, u64* capacity, u64 item_size, const void* other_items, u64 other_count);
 void list_free(void* items);
