@@ -75,6 +75,8 @@ static bool get_label_name_from_address(const EVPGM_Labels* ll, u64 address, Str
 
 EVPGM program_from_token_list(const TokenList* tl) {
     EVPGM program = {0};
+    memcpy(program.signature, evpgm_signature, sizeof(evpgm_signature));
+    program.version = EVPGM_VERSION;
 
     LIST_ITERATE(tl, Token, token, {
         ASM_Instruction instruction = {0};
