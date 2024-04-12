@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECTS="evlang evlc evlvm"
+PROJECTS="evlang evlc evlvm evljit"
 
 for project in ${PROJECTS[@]};
 do
