@@ -1,3 +1,4 @@
+#include <evlang/list.h>
 #include <evlang/asm.h>
 
 cstr asm_instruction_mneumonic(ASM_InstructionType type) {
@@ -29,3 +30,5 @@ cstr asm_builtin_name(ASM_Builtin builtin) {
         return NULL;
     }
 }
+
+LIST_FUNCTIONS_IMPLEMENT(ASM_Instructions, ASM_Instruction, asm_instructions)

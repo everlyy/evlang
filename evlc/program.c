@@ -51,8 +51,8 @@ static void parse_token_instruction(ASM_Instruction* instruction, const Token* t
     }
 }
 
-static bool get_address_from_label_name(const LabelList* ll, const StringView* name, u64* address) {
-    LIST_ITERATE(ll, Label, l, {
+static bool get_address_from_label_name(const EVPGM_Labels* ll, const StringView* name, u64* address) {
+    LIST_ITERATE(ll, EVPGM_Label, l, {
         if(sv_eq(&l->name, name)) {
             *address = l->address;
             return true;
@@ -62,8 +62,8 @@ static bool get_address_from_label_name(const LabelList* ll, const StringView* n
     return false;
 }
 
-static bool get_label_name_from_address(const LabelList* ll, u64 address, StringView** name) {
-    LIST_ITERATE(ll, Label, l, {
+static bool get_label_name_from_address(const EVPGM_Labels* ll, u64 address, StringView** name) {
+    LIST_ITERATE(ll, EVPGM_Label, l, {
         if(l->address == address) {
             *name = &l->name;
             return true;
@@ -73,8 +73,8 @@ static bool get_label_name_from_address(const LabelList* ll, u64 address, String
     return false;
 }
 
-Program program_from_token_list(const TokenList* tl) {
-    Program program = {0};
+EVPGM program_from_token_list(const TokenList* tl) {
+    EVPGM program = {0};
 
     LIST_ITERATE(tl, Token, token, {
         ASM_Instruction instruction = {0};
@@ -102,10 +102,10 @@ Program program_from_token_list(const TokenList* tl) {
         }
 
         case TOKEN_LABEL_DEF: {
-            Label label = {0};
+            EVPGM_Label label = {0};
             label.name = token->interpret.as_symbol;
             label.address = program.instructions.count;
-            ll_append(&program.labels, &label);
+            evpgm_labels_append(&program.labels, &label);
             goto dont_add;
         }
 
@@ -133,7 +133,7 @@ Program program_from_token_list(const TokenList* tl) {
             );
         }
 
-        il_append(&program.instructions, &instruction);
+        asm_instructions_append(&program.instructions, &instruction);
 
         dont_add:
             continue;
@@ -143,11 +143,11 @@ Program program_from_token_list(const TokenList* tl) {
         .type = ASMI_HALT,
         .operand.as_u64 = 0
     };
-    il_append(&program.instructions, &halt_instruction);
+    asm_instructions_append(&program.instructions, &halt_instruction);
     return program;
 }
 
-void program_disassemble(const Program* program) {
+void program_disassemble(const EVPGM* program) {
     printf("\e[1m%-4s    %-4s %-18s    %s\e[0m\n", "ADDR", "CODE", "OPERAND", "DISASSEMBLY");
 
     for(u64 i = 0; i < program->instructions.count; i++) {
@@ -181,50 +181,6 @@ void program_disassemble(const Program* program) {
     }
 }
 
-void program_write_evpgm(const Program* program, FILE* file) {
-    u16 label_count = program->labels.count;
-    EVPGM_Label* labels = calloc(label_count, sizeof(*labels));
-
-    LIST_ITERATE(&program->labels, Label, l, ({
-        labels[__index] = (EVPGM_Label) {
-            .name = (u8*)l->name.data,
-            .name_length = l->name.length,
-            .address = l->address
-        };
-    }))
-
-    u64 fixme_code_capacity = 8192;
-    u64 code_length = 0;
-    u8* code = calloc(fixme_code_capacity, sizeof(*code));
-
-    LIST_ITERATE(&program->instructions, ASM_Instruction, insn, ({
-        memcpy(&code[code_length], insn, sizeof(ASM_Instruction));
-        code_length += sizeof(ASM_Instruction);
-    }))
-
-    evpgm_write_to_file(file, label_count, labels, code_length, code);
-}
-
-void il_append(InstructionList* il, const ASM_Instruction* i) {
-    LIST_APPEND(il, i);
-}
-
-void il_extend(InstructionList* il, const InstructionList* other_il) {
-    LIST_EXTEND(il, other_il);
-}
-
-void il_free(InstructionList* il) {
-    LIST_FREE(il);
-}
-
-void ll_append(LabelList* ll, const Label* l) {
-    LIST_APPEND(ll, l);
-}
-
-void ll_extend(LabelList* ll, const LabelList* other_ll) {
-    LIST_EXTEND(ll, other_ll);
-}
-
-void ll_free(LabelList* ll) {
-    LIST_FREE(ll);
+void program_write_evpgm(const EVPGM* program, FILE* file) {
+    evpgm_write_to_file(file, program);
 }

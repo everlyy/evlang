@@ -50,6 +50,10 @@
     void prefix##_extend(list_type* list, const list_type* other_list)  { LIST_EXTEND(list, other_list); } \
     void prefix##_free(list_type* list)                                 { LIST_FREE(list);               } \
 
+#define LIST_DEFINE_ALL(list_type, item_type, prefix)   \
+    typedef LIST_DEFINE_STRUCT(item_type) list_type;    \
+    LIST_FUNCTIONS_DEFINE(list_type, item_type, prefix) \
+
 void list_append(void** items, u64* count, u64* capacity, u64 item_size, const void* item);
 void list_extend(void** items, u64* count, u64* capacity, u64 item_size, const void* other_items, u64 other_count);
 void list_free(void* items);

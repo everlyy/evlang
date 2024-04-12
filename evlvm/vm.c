@@ -47,7 +47,7 @@ VM vm_create(EVPGM program) {
 
 void vm_run(VM* vm) {
     while(!vm->halt) {
-        const ASM_Instruction* i = &((ASM_Instruction*)vm->program.code)[vm->program_counter];
+        const ASM_Instruction* i = &vm->program.instructions.items[vm->program_counter];
         vm->program_counter++;
 
         switch(i->type) {

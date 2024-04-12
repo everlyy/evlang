@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 
     Lexer l = lexer_create(filename, contents);
     TokenList tl = lexer_token_list(&l);
-    Program program = program_from_token_list(&tl);
+    EVPGM program = program_from_token_list(&tl);
 
     program_disassemble(&program);
 

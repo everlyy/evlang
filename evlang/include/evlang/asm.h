@@ -2,6 +2,7 @@
 #define _EVLANG_ASM_H
 
 #include <evlang/types.h>
+#include <evlang/list.h>
 #include <stdbool.h>
 
 #define ASM_INSTRUCTIONS_ENUM             \
@@ -47,6 +48,8 @@ typedef struct {
     ASM_InstructionType type;
     ASM_Operand operand;
 } ASM_Instruction;
+
+LIST_DEFINE_ALL(ASM_Instructions, ASM_Instruction, asm_instructions);
 
 cstr asm_instruction_mneumonic(ASM_InstructionType type);
 bool asm_instruction_has_operand(ASM_InstructionType type);
