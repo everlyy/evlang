@@ -12,14 +12,14 @@ HEADERS := $(OBJECTS:%.o=%.d)
 all: $(BINARY_DIR)/$(NAME)
 
 $(BINARY_DIR)/$(NAME): $(OBJECTS)
-	@mkdir -p $(BINARY_DIR)
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	$(info LINK $@)
 
 -include $(HEADERS)
 
 $(OBJECTS_DIR)/%.o: %.c
-	@mkdir -p $(OBJECTS_DIR)
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -c -o $@ $<
 	$(info CC $@)
 
