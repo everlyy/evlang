@@ -88,7 +88,7 @@ void evpgm_write_to_file(FILE* file, const EVPGM* pgm) {
     write_u64(file, pgm->instructions.count);
     for(u64 i = 0; i < pgm->instructions.count; i++) {
         const ASM_Instruction* instruction = &pgm->instructions.items[i];
-        write_buffer(file, &instruction, sizeof(*instruction));
+        write_buffer(file, instruction, sizeof(*instruction));
     }
 }
 
